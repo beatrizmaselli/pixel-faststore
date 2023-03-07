@@ -1,11 +1,29 @@
 <script>
-  (function() {
-    var appId = "{{settings.gtmId}}";
-    if (!appId) {
-      console.error('Warning: No APP NAME ID is defined. Please configure it in the apps admin.');
-      return
-    }
 
-    // Add script here
-  })()
+  function callUrlWithRetry(url, maxRetries, retryInterval) {
+  return fetch(url,{
+    method: 'POST',
+  })
+    .then(response => {
+      if (response.ok) {
+        return 
+      } else {
+        throw new Error(`Without vtex_session cookie`);
+      }
+    })
+    .catch(error => {
+      if (maxRetries > 0) {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve(callUrlWithRetry(url, maxRetries - 1, retryInterval));
+          }, retryInterval);
+        });
+      } else {
+        throw error;
+      }
+    });
+}
+
+callUrlWithRetry(`faststore/cookie`, 3, 5000)
+
 </script>

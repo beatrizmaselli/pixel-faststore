@@ -1,36 +1,39 @@
 {
-  "name": "YOURAPPNAME",
+  "name": "faststore-pixel",
   "vendor": "vtex",
   "version": "0.0.1",
-  "title": "CHANGEME",
-  "description": "CHANGEME",
-  "billingOptions": {
-    "termsURL": "https://compliance.vtex.com/gdpr/policies/vtex-privacy-policy",
-    "support": {
-      "url": "https://support.vtex.com/hc/requests"
-    },
-    "free": true,
-    "type": "free",
-    "availableCountries": [
-      "*"
-    ]
-  },
+  "title": "Fast Store Pixel",
+  "description": "Responsible for synchronizing the session cookie for fast store.",
   "builders": {
-    "react": "3.x",
-    "store": "0.x",
     "pixel": "0.x",
-    "docs": "0.x"
+    "node": "6.x"
   },
   "dependencies": {
     "vtex.pixel-interfaces": "1.x"
   },
+  "policies": [
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "portal.vtexcommercestable.com.br",
+        "path": "/api/sessions/*"
+      }
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "*",
+        "path": "*/faststore/cookie/*"
+      }
+    }
+  ],
   "settingsSchema": {
-    "title": "YOUR APP NAME",
+    "title": "Fast Store Pixel",
     "type": "object",
     "properties": {
-      "gtmId": {
-        "title": "SAMPLE FIELD",
-        "description": "Enter the ID (GTM-XXXX) from your Google Tag Manager",
+      "domain": {
+        "title": "Cookie domain",
+        "description": "Set your main domain for your FastStore (ex: .vtexfaststore.com)",
         "type": "string"
       }
     }
