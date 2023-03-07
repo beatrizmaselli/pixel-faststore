@@ -18,13 +18,6 @@
         "host": "portal.vtexcommercestable.com.br",
         "path": "/api/sessions/*"
       }
-    },
-    {
-      "name": "outbound-access",
-      "attrs": {
-        "host": "*",
-        "path": "*/faststore/cookie/*"
-      }
     }
   ],
   "settingsSchema": {
