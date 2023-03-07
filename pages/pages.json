@@ -1,7 +1,0 @@
-{
-  "extensions": {
-    "checkout/universal/faststoreSession": {
-      "component": "index"
-    }
-  }
-}
