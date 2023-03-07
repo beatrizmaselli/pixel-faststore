@@ -2,21 +2,38 @@
   "name": "faststore-pixel",
   "vendor": "vtex",
   "version": "0.0.1",
-  "title": "FS",
-  "description": "Pixel app for Fast Store ",
+  "title": "Fast Store Pixel",
+  "description": "Responsible for synchronizing the session cookie for fast store.",
   "builders": {
-    "pixel": "0.x"
+    "pixel": "0.x",
+    "node": "6.x"
   },
   "dependencies": {
-    "vtex.pixel-interfaces": "1.x",
-    "vtex.checkout-resources": "0.x"
+    "vtex.pixel-interfaces": "1.x"
   },
+  "policies": [
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "portal.vtexcommercestable.com.br",
+        "path": "/api/sessions/*"
+      }
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "*",
+        "path": "*/faststore/cookie/*"
+      }
+    }
+  ],
   "settingsSchema": {
     "title": "Fast Store Pixel",
     "type": "object",
     "properties": {
-      "orderFormId": {
-        "title": "Order Form Id",
+      "domain": {
+        "title": "Cookie domain",
+        "description": "Set your main domain for your FastStore (ex: .vtexfaststore.com)",
         "type": "string"
       }
     }

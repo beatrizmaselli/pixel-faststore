@@ -1,30 +1,29 @@
 <script>
 
-  function wait(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  function callUrlWithRetry(url, maxRetries, retryInterval) {
+  return fetch(url,{
+    method: 'POST',
+  })
+    .then(response => {
+      if (response.ok) {
+        return 
+      } else {
+        throw new Error(`Without vtex_session cookie`);
+      }
+    })
+    .catch(error => {
+      if (maxRetries > 0) {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve(callUrlWithRetry(url, maxRetries - 1, retryInterval));
+          }, retryInterval);
+        });
+      } else {
+        throw error;
+      }
+    });
 }
-  
-  (async function() {
-    console.log('Starting to wait...');
-    await wait(2000);
-    var orderFormId = '{{settings.orderFormId}}';
-    const url = `/api/checkout/pub/orderForm/${orderFormId}`;
 
-    
-fetch(url)
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
-  })
-  .then(data => {
-    console.log(data);
-    // Process the response data as needed
-  })
-  .catch(error => {
-    console.error('There was a problem with the fetch operation:', error);
-  });
-    }
-  )()
+callUrlWithRetry(`faststore/cookie`, 3, 5000)
+
 </script>
