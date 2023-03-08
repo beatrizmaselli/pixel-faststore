@@ -1,7 +1,7 @@
 export async function cookie(ctx: Context, next: () => Promise<any>) {
-  const { domain } = await ctx.clients.apps.getAppSettings(
-    'vtex.faststore-pixel'
-  )
+  // const { domain } = await ctx.clients.apps.getAppSettings(
+  //   'vtex.faststore-pixel'
+  // )
 
   const sessionToken =
     ctx.cookies.get('vtex_session') ||
@@ -13,7 +13,9 @@ export async function cookie(ctx: Context, next: () => Promise<any>) {
     return
   }
 
-  ctx.cookies.set(`vtex_session`, sessionToken, { domain: `${domain}` })
+  ctx.cookies.set(`vtex_session`, sessionToken, {
+    domain: '.vtexfaststore.com',
+  })
   ctx.response.status = 200
 
   await next()
